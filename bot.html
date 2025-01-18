@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Personal Assistant Chatbot</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Add Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 50;
+            padding: 10px;
+        }
+        .modal img {
+            width: 100%;
+            max-width: 500px;
+            max-height: 80%;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
+
+<div class="w-full max-w-md mx-auto bg-white shadow-lg rounded-lg overflow-hidden" id="bot">
+    <div class="bg-gradient-to-r from-blue-500 to-indigo-600 text-white flex justify-between items-center py-4 px-4">
+        <div class="flex items-center">
+            <img id="profile-picture" src="bot_profile_logo.png" alt="Profile" class="w-8 h-8 md:w-10 md:h-10 rounded-full cursor-pointer mr-2">
+            <h1 class="text-lg md:text-xl font-semibold">Know about me</h1>
+        </div>
+        <!-- Simplified refresh button with icon -->
+        <button id="refresh-button" class="text-white text-2xl hover:text-blue-300 transition-all duration-200 ease-in-out focus:outline-none">
+            <i class="fas fa-sync-alt"></i>
+        </button>
+    </div>
+    <div id="chat-log" class="h-96 overflow-y-auto p-4 bg-gray-50">
+        <!-- Chat log will appear here -->
+    </div>
+    <div class="flex border-t border-gray-200 p-2">
+        <input type="text" id="user-input" placeholder="Type your message here..."
+               class="flex-grow p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+               onkeydown="if(event.key === 'Enter') document.getElementById('send-button').click();" />
+        <button id="send-button"
+                class="ml-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-md hover:bg-blue-700 focus:outline-none">
+            Send
+        </button>
+    </div>
+</div>
+
+<!-- Modal for Image Popup -->
+<div id="image-modal" class="modal flex hidden">
+    <img id="modal-image" src="bot_profile_logo.png" alt="Profile Large">
+</div>
+
+<script>
+    // Image click event to show modal
+    document.getElementById('profile-picture').addEventListener('click', function() {
+        document.getElementById('image-modal').style.display = 'flex';
+    });
+
+    // Modal click event to close the modal
+    document.getElementById('image-modal').addEventListener('click', function() {
+        this.style.display = 'none';
+    });
+
+    const chatbotResponses = {
+        hello: "Hey there! 😊 How can I make your day better? Ask me anything about the portfolio or just say hi!",
+        help: "I'm here to help you out! Feel free to ask me questions about the portfolio, skills, or anything else you’re curious about.",
+        thanks: "You're so welcome! 😊 Let me know if there's anything else I can do to assist you.",
+        no: "No worries at all! I'm always here if you need anything. 🌟",
+        abuseResponse: "Let's keep things friendly, please. I'm here to make your day a little brighter! 😊",
+        name: "I'm your friendly chat assistant Riya, here to help and chat with you anytime! 😊",
+        ownerName: "My amazing creator is Aman Mirza. He's a brilliant developer with lots of experience! 💻",
+        owner: "That would be Aman Mirza—an expert in his field and my creator.",
+        skills: "I’ve got the details on HTML, CSS, JavaScript, Tailwind CSS, Responsive Design, and Git. Pretty cool, right?",
+        about: "I’m your assistant, built to guide you with info created by Aman Mirza, who has over a decade of experience in frontend development.",
+        services: "Aman is a skilled frontend developer from India with experience in multiple companies like Webdenn. He can create modern, responsive web solutions.",
+        contact: "Need to reach Aman? You can email him at aman9811269898@gmail.com or call him at 8076993834.",
+        website: "This portfolio showcases Aman Mirza's impressive work as a frontend developer. Feel free to ask about specific projects or skills!",
+        clearChat: "Alright, clearing our chat! 🗑️ Just a sec...",
+        default: "Hmm, I’m not sure about that. Maybe try asking about the portfolio or something you'd like to know!"
+    };
+
+    const abusiveWords = ["fool", "fuck", "shit", "bitch", "asshole", "damn", "idiot"];
+
+    function getBotResponse(userInput) {
+        userInput = userInput.toLowerCase().trim();
+
+        if (abusiveWords.some(word => userInput.includes(word))) {
+            return chatbotResponses.abuseResponse;
+        }
+
+        // Clear chat when user types "clear chat", "clear", "delete", or "delete chat"
+        if (/clear chat|clear|delete|delete chat/i.test(userInput)) {
+            const chatLog = document.getElementById('chat-log');
+
+            if (!document.querySelector('.deleting-chat')) {
+                const responseElement = document.createElement('div');
+                responseElement.className = 'mb-2 inline-block bg-gray-100 text-gray-900 p-2 rounded-md deleting-chat';
+                responseElement.innerHTML = chatbotResponses.clearChat;
+                chatLog.appendChild(responseElement);
+                chatLog.scrollTop = chatLog.scrollHeight;
+
+                setTimeout(() => {
+                    chatLog.innerHTML = ''; // Clear chat after 2 seconds
+                }, 2000);
+            }
+
+            document.getElementById('user-input').value = ''; // Clear input box immediately
+            return null;
+        }
+
+        if (/no/.test(userInput)) {
+            return chatbotResponses.no;
+        }
+
+        if (/tell me about this website|tell me about this portfolio|website|portfolio/i.test(userInput)) {
+            return chatbotResponses.website;
+        }
+
+        if (/hi|hello|hlo|hey|hy|helo/.test(userInput)) {
+            return chatbotResponses.hello;
+        }
+
+        if (/ok/.test(userInput)) {
+            return chatbotResponses.help;
+        }
+
+        if (/thanks|thank you|thankyou/.test(userInput)) {
+            return chatbotResponses.thanks;
+        }
+
+        if (/what is your name|who are you|your name|who are you/i.test(userInput)) {
+            return chatbotResponses.name;
+        }
+
+        if (/what is your owner name|who is your owner|owner/i.test(userInput)) {
+            return chatbotResponses.ownerName;
+        }
+
+        if (/skills|what skills|skill|tell me about what skills you have|skills/i.test(userInput)) {
+            return chatbotResponses.skills;
+        }
+
+        if (/about|about yourself|tell me about yourself/i.test(userInput)) {
+            return chatbotResponses.about;
+        }
+
+        if (/services|what about your services|your service/i.test(userInput)) {
+            return chatbotResponses.services;
+        }
+
+        if (/contact|your contact information/i.test(userInput)) {
+            return chatbotResponses.contact;
+        }
+
+        return chatbotResponses.default;
+    }
+
+    document.getElementById('send-button').addEventListener('click', () => {
+        const userInput = document.getElementById('user-input').value;
+        if (!userInput) return;
+
+        const chatLog = document.getElementById('chat-log');
+
+        if (!/clear chat|clear|delete|delete chat/i.test(userInput)) {
+            chatLog.innerHTML += `<div class="mb-2 text-right"><div class="inline-block bg-blue-100 text-blue-900 p-2 rounded-md">${userInput}</div></div>`;
+        }
+
+        const botResponse = getBotResponse(userInput);
+
+        if (/clear chat|clear|delete|delete chat/i.test(userInput)) {
+            document.getElementById('user-input').value = ''; // Clear input box immediately
+            return;
+        }
+
+        if (botResponse !== null) {
+            const responseElement = document.createElement('div');
+            responseElement.className = 'mb-2 inline-block bg-gray-100 text-gray-900 p-2 rounded-md';
+            responseElement.innerHTML = '<i>Typing...</i>';
+            chatLog.appendChild(responseElement);
+            chatLog.scrollTop = chatLog.scrollHeight;
+
+            setTimeout(() => {
+                responseElement.innerHTML = botResponse;
+                chatLog.scrollTop = chatLog.scrollHeight;
+            }, 1000);
+        }
+
+        document.getElementById('user-input').value = ''; // Clear input box after response
+    });
+
+    document.getElementById('refresh-button').addEventListener('click', () => {
+        document.getElementById('chat-log').innerHTML = '';
+    });
+</script>
+
+</body>
+</html>
+
