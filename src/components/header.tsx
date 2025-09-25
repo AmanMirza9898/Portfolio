@@ -5,7 +5,7 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { useState } from 'react'
 import { useActiveSection } from './context/active-section-provider'
-import { Icons } from './icons'
+// Icons import hata diya
 import { ThemeToggle } from './theme-toggle'
 import { Button } from './ui/button'
 import {
