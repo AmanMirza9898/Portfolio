@@ -40,5 +40,6 @@ export const siteConfig = {
     github: 'https://github.com/AmanMirza9898',
     mailTo: 'mailto:aman9811269898@gmail.com',
     cvPdf: '#',
+    youtube: '#',
   },
 }
