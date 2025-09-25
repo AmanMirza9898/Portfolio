@@ -36,7 +36,7 @@ export default function Header() {
               size="lg"
               className="bg-background/80 backdrop-blur-sm"
             >
-              Menu <Icons.chevronDown className="ml-2 size-4" />
+              Menu
             </Button>
           </DialogTrigger>
           <DialogContent>
@@ -53,7 +53,14 @@ export default function Header() {
                     onClick={() => setIsOpen(false)}
                     className="border-muted-foreground/10 py-3 text-sm [&:not(:last-child)]:border-b"
                   >
-                    <Link className="block" href={data.href}>
+                    <Link 
+                      className="block" 
+                      href={data.href}
+                      onClick={() => {
+                        setActiveSection(data.name)
+                        setTimeOfLastClick(Date.now())
+                      }}
+                    >
                       {data.name}
                     </Link>
                   </li>
@@ -62,7 +69,6 @@ export default function Header() {
             </nav>
           </DialogContent>
         </Dialog>
-        {/* Tablet/Desktop Navbar */}
         <ThemeToggle className="bg-background/80 backdrop-blur-sm" />
       </div>
       {/* Desktop Navbar */}

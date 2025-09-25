@@ -58,7 +58,7 @@ export default function ProjectsSection() {
             className="flex flex-col rounded border p-4 cursor-pointer"
           >
             <Link
-              href={data.links.github}
+              href={index === 0 ? "https://qalakriti.com/" : index === 1 ? "https://chatwithbluetick.com/" : data.links.github}
               aria-label={data.title}
               target="_blank"
               className="overflow-hidden rounded"
@@ -72,9 +72,21 @@ export default function ProjectsSection() {
                 className="pointer-events-none mx-auto h-40 w-full object-cover object-top"
               />
             </Link>
-            <h3 className="mt-4 text-xl font-medium">{data.title}</h3>
+            <h3 className="mt-4 text-xl font-medium">
+              {index === 0 
+                ? "Qalakriti" 
+                : index === 1
+                ? "ChatWithBlueTick"
+                : data.title
+              }
+            </h3>
             <p className="text-muted-foreground mb-4 mt-1">
-              {data.description}
+              {index === 0 
+                ? "An art website where you can sell and purchase arts. Artists can list their artwork here and buyers can connect directly with artists." 
+                : index === 1
+                ? "A WhatsApp blue tick verification service. Here you can apply for WhatsApp verified badge (blue tick) and get your account authenticated."
+                : data.description
+              }
             </p>
             <div className="flex flex-wrap gap-2">
               {data.technologies.map((tech) => (

@@ -8,6 +8,7 @@ import ProjectsSection from '@/components/projects-section'
 import SectionDivider from '@/components/section-divider'
 import { ThemeToggle } from '@/components/theme-toggle'
 
+
 export default function Home() {
   return (
     <>

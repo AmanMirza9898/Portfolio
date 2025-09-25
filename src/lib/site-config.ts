@@ -1,12 +1,12 @@
 import { env } from '@/env.mjs'
 
 export const siteConfig = {
-  name: 'John Doe',
-  title: 'John Doe | Front-end developer',
+  name: 'Aman Mirza',
+  title: 'Aman Mirza | Front-end developer',
   description:
-    "Hello, I'm John. I am front-end developer from Poland. I enjoy building sites and apps. My focus is React (Next.js).",
+    "Hello, I'm Aman. I am front-end developer from Poland. I enjoy building sites and apps. My focus is React (Next.js).",
   keywords: [
-    'John Doe',
+    'Aman Mirza',
     'Front-end developer',
     'Poland',
     'React',
@@ -27,19 +27,18 @@ export const siteConfig = {
     'Programming',
     'Tech enthusiast',
   ],
-  creator: 'Build With Sohail',
+  creator: 'Build With Aman Mirza',
   url: '#',
   contact: {
-    email: 'john@doe.com',
-    linkedin: '#',
-    github: '#',
+    email: 'aman9811269898@gmail.com',
+    linkedin: 'https://www.linkedin.com/in/aman-mirza-4b15122aa/',
+    github: 'https://github.com/AmanMirza9898',
   },
   links: {
     contactForm: '/#contact',
-    linkedin: '#',
-    github: '#',
-    mailTo: 'mailto:john@doe.com',
-    cvPdf: '/john-doe-cv.pdf',
-    sohailYoutube: 'https://www.youtube.com/@buildwithsohail',
+    linkedin: 'https://www.linkedin.com/in/aman-mirza-4b15122aa/',
+    github: 'https://github.com/AmanMirza9898',
+    mailTo: 'mailto:aman9811269898@gmail.com',
+    cvPdf: '#',
   },
 }

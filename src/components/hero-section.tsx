@@ -12,11 +12,12 @@ export default function HeroSection() {
   const { ref } = useSectionInView('Home')
 
   return (
-    <section
-      ref={ref}
-      id="home"
-      className="relative my-10 mb-60 flex scroll-mt-96 flex-col items-center gap-5 text-center sm:mt-28"
-    >
+   <section
+  ref={ref}
+  id="home"
+  className="relative my-10 mb-60 flex scroll-mt-96 flex-col items-center gap-5 text-center p-4 sm:p-0 sm:mt-28"
+>
+
       <GridPattern
         width={80}
         height={120}
@@ -91,13 +92,13 @@ export default function HeroSection() {
           </Link>
         </Button>
         <Button variant="outline" size="lg" className="hidden sm:flex" asChild>
-          <a href={siteConfig.links.cvPdf} download>
+          <a href='#'>
             Download CV <Icons.download className="ml-2 size-4" />
           </a>
         </Button>
         <Button variant="outline" size="icon" asChild>
           <Link
-            href={siteConfig.links.linkedin}
+            href='https://www.linkedin.com/in/aman-mirza-4b15122aa/'
             aria-label="Linkedin"
             target="_blank"
           >
@@ -106,7 +107,7 @@ export default function HeroSection() {
         </Button>
         <Button variant="outline" size="icon" asChild>
           <Link
-            href={siteConfig.links.github}
+            href='https://github.com/AmanMirza9898'
             aria-label="Github"
             target="_blank"
           >
